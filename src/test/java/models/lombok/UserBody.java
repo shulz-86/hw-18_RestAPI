@@ -1,4 +1,4 @@
-package modal.lombok;
+package models.lombok;
 
 import lombok.Data;
 

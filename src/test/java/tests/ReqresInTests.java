@@ -2,18 +2,15 @@ package tests;
 
 import io.qameta.allure.Owner;
 
-import modal.lombok.*;
+import models.lombok.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import spec.*;
 
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static spec.CreatedUser.*;
-import static spec.DeleteUser.*;
-import static spec.RegisterUser.*;
-import static spec.SingleUser.*;
-import static spec.UpdateUser.*;
+
 
 @Owner("Olshanskaya")
 public class ReqresInTests {
@@ -21,11 +18,11 @@ public class ReqresInTests {
     @Test
     void checkSingleUserInfo() {
         SingleUsersResponseContainer response = step("Проверка данных одного пользвателя", () ->
-            given(singleUserRequestSpec)
+            given(SingleUser.singleUserRequestSpec())
                     .when()
                     .get("/users/2")
                     .then()
-                    .spec(singleUserResponseSpec)
+                    .spec(SingleUser.singleUserResponseSpec())
                     .extract().as(SingleUsersResponseContainer.class));
 
         step("Проверка данных одного пользвателя", () -> {
@@ -43,11 +40,11 @@ public class ReqresInTests {
         data.setJob("leader");
 
         CreatedUserIdResponse createdUserIdResponse = step("Ввод данных", () ->
-                given(createdUserRequestSpec)
+                given(CreatedUser.createdUserRequestSpec())
                         .when()
                         .post("/users")
                         .then()
-                        .spec(createdUserResponseSpec)
+                        .spec(CreatedUser.createdUserResponseSpec())
                         .extract().as(CreatedUserIdResponse.class));
 
         step("Проверка Id не пустое", () -> {
@@ -64,11 +61,11 @@ public class ReqresInTests {
         registerBody.setEmail("sydney@fife");
 
         UserRegisterResponse response = step("Ввод данных", () ->
-                given(registerUserRequestSpec)
+                given(RegisterUser.registerUserRequestSpec())
                         .when()
                         .post("/register")
                         .then()
-                        .spec(registerUserResponseSpec)
+                        .spec(RegisterUser.registerUserResponseSpec())
                         .extract().as(UserRegisterResponse.class));
 
         step("Проверка негативного кейса регистрации", () -> {
@@ -84,11 +81,11 @@ public class ReqresInTests {
         data.setJob("zion resident");
 
         UserUpdateResponse response = step("", () ->
-                given(updateUserRequestSpec)
+                given(UpdateUser.updateUserRequestSpec())
                 .when()
                 .put("users/2")
                 .then()
-                .spec(updateUserResponseSpec)
+                .spec(UpdateUser.updateUserResponseSpec())
                 .extract().as(UserUpdateResponse.class));
 
         step("Проверка обновления пользователя", () -> {
@@ -96,14 +93,15 @@ public class ReqresInTests {
         });
     }
 
+    @DisplayName("Проверка удаления пользвателя")
     @Test
     void checkDeleteUser() {
         step("Проверка удаления пользвателя", () -> {
-            given(deletedUserRequestSpec)
+            given()
                     .when()
-                    .delete("/users/2")
+                    .delete("https://reqres.in/api/users/2")
                     .then()
-                    .spec(deletedUserResponseSpec);
+                    .statusCode(204);
         });
     }
 }

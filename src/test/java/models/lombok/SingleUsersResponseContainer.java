@@ -1,4 +1,4 @@
-package modal.lombok;
+package models.lombok;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
