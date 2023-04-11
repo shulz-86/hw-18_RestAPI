@@ -100,9 +100,9 @@ public class ReqresInTests extends BaseSpec {
     @Test
     void checkDeleteUser() {
         step("Проверка удаления пользвателя", () -> {
-            given()
+            given(userRequestSpec())
                     .when()
-                    .delete("https://reqres.in/api/users/2")
+                    .delete("users/2")
                     .then()
                     .statusCode(204);
         });
