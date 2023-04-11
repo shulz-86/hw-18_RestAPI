@@ -13,12 +13,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @Owner("Olshanskaya")
-public class ReqresInTests {
+public class ReqresInTests extends BaseSpec {
     @DisplayName("Проверка данных одного конкретного пользвателя")
     @Test
     void checkSingleUserInfo() {
         SingleUsersResponseContainer response = step("Проверка данных одного пользвателя", () ->
-            given(SingleUser.singleUserRequestSpec())
+            given(userRequestSpec())
                     .when()
                     .get("/users/2")
                     .then()
@@ -40,7 +40,8 @@ public class ReqresInTests {
         data.setJob("leader");
 
         CreatedUserIdResponse createdUserIdResponse = step("Ввод данных", () ->
-                given(CreatedUser.createdUserRequestSpec())
+                given(userRequestSpec())
+                        .body(data)
                         .when()
                         .post("/users")
                         .then()
@@ -61,7 +62,8 @@ public class ReqresInTests {
         registerBody.setEmail("sydney@fife");
 
         UserRegisterResponse response = step("Ввод данных", () ->
-                given(RegisterUser.registerUserRequestSpec())
+                given(userRequestSpec())
+                        .body(registerBody)
                         .when()
                         .post("/register")
                         .then()
@@ -81,12 +83,13 @@ public class ReqresInTests {
         data.setJob("zion resident");
 
         UserUpdateResponse response = step("", () ->
-                given(UpdateUser.updateUserRequestSpec())
-                .when()
-                .put("users/2")
-                .then()
-                .spec(UpdateUser.updateUserResponseSpec())
-                .extract().as(UserUpdateResponse.class));
+                given(userRequestSpec())
+                        .body(data)
+                        .when()
+                        .put("users/2")
+                        .then()
+                        .spec(UpdateUser.updateUserResponseSpec())
+                        .extract().as(UserUpdateResponse.class));
 
         step("Проверка обновления пользователя", () -> {
             assertThat(response.getUpdatedAt()).isNotNull();

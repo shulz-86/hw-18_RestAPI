@@ -11,15 +11,15 @@ import static io.restassured.filter.log.LogDetail.STATUS;
 import static io.restassured.http.ContentType.JSON;
 
 public class BaseSpec {
-    public static RequestSpecification userRequestSpec (String baseUri, String basePath) {
+    public static RequestSpecification userRequestSpec () {
          return with()
                 .log().uri()
                 .log().headers()
                 .log().body()
                 .filter(withCustomTemplates())
                 .contentType(JSON)
-                .baseUri(baseUri)
-                .basePath(basePath);
+                .baseUri("https://reqres.in")
+                .basePath("/api");
     }
 
     public static ResponseSpecification userResponseSpec (int expectStatusCode) {
