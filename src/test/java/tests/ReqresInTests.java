@@ -4,8 +4,11 @@ import io.qameta.allure.Owner;
 
 import models.lombok.*;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import spec.*;
+
+import static org.hamcrest.Matchers.is;
 
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.*;
@@ -16,22 +19,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ReqresInTests extends BaseSpec {
     @DisplayName("Проверка данных одного конкретного пользвателя")
     @Test
+    @Tag("GroovyTests")
     void checkSingleUserInfo() {
-        SingleUsersResponseContainer response = step("Проверка данных одного пользвателя", () ->
-            given(userRequestSpec())
-                    .when()
-                    .get("/users/2")
-                    .then()
-                    .spec(SingleUser.singleUserResponseSpec())
-                    .extract().as(SingleUsersResponseContainer.class));
-
         step("Проверка данных одного пользвателя", () -> {
-            assertThat(response.getData()).isNotNull();
-            assertThat(response.getData().getId()).isEqualTo(2);
-            assertThat(response.getData().getFirstName()).isEqualTo("Janet");
-            assertThat(response.getData().getLastName()).isEqualTo("Weaver");
-        });
+                    given(userRequestSpec())
+                            .when()
+                            .get("/users/2")
+                            .then()
+                            .spec(SingleUser.singleUserResponseSpec())
+                            .body("data.email", is("janet.weaver@reqres.in"))
+                            .body("data.last_name", is("Weaver"))
+                            .body("data.first_name", is("Janet"));
+                });
     }
+
     @DisplayName("Проверка Id при создании пользователя")
     @Test
     void checkCreatedUserIdIsNotNull() {
