@@ -38,19 +38,19 @@
 - [x] Cборка в `Jenkins`
 - [x] Формирование Allure-отчета
 - [x] Интеграция с `Allure TestOps`
-- [x] Отправка уведомления с результатами в `Telegram` и `Slack`
+- [x] Отправка уведомления с результатами в `Telegram`
 
 <a id="cases"></a>
 ## Автоматизированные проверки
-:heavy_check_mark: Check login successful
+:heavy_check_mark: Checking a negative registration case
 
-:heavy_check_mark: Check login unsuccessful
+:heavy_check_mark: User update check
 
-:heavy_check_mark: Check update user
+:heavy_check_mark: Checking Id when creating a user
 
-:heavy_check_mark: Check delete user
+:heavy_check_mark: Checking the data of one specific user
 
-:heavy_check_mark: Check that response body has email
+:heavy_check_mark: User deletion check
 
 <a id="console"></a>
 ##  Запуск тестов
