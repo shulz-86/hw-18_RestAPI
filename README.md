@@ -96,9 +96,3 @@ gradle clean api_test
 <img src="images/screenshots/TelegramBot.PNG">
 </p>
 
-<a id="slack"></a>
-## Уведомления в Slack с использованием бота
-
-<p>
-<img src="images/screenshots/SlackBot.PNG">
-</p>
